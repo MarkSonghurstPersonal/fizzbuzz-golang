@@ -1,4 +1,4 @@
-package respository
+package repository
 
 type FizzBuzzer interface {
 	Fizz(int) bool
