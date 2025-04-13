@@ -32,7 +32,7 @@ func (fb FizzBuzz) Run(ctx context.Context) {
 	wg := sync.WaitGroup{}
 
 	// The Channel buffer is limited to half the upper limit, to exercise the channel's blocking behavior.
-	// This is to ensure that the channel does not grow indefinitely.
+	// This also ensures that the channel does not grow indefinitely if upperLimit is set to a very large number.
 	chProcessor := make(chan result, fb.upperLimit/2)
 
 	// Goroutine to generate FizzBuzz values and send them to the channel.
@@ -55,7 +55,6 @@ func (fb FizzBuzz) Run(ctx context.Context) {
 		for {
 			fb, ok := <-chProcessor
 			if !ok {
-				slog.Debug("Channel closed")
 				return
 			}
 			switch {
